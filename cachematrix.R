@@ -1,15 +1,29 @@
-## Put comments here that give an overall description of what your
-## functions do
+## create matrix and calculate inverse of matrix once !!
 
-## Write a short comment describing this function
+## create list with getter/setter function for metrix and metrix inverse
 
-makeCacheMatrix <- function(x = matrix()) {
-
+makeCacheMatrix <- function(m = matrix())
+{
+    mi <- NULL
+    set <- function(givenM) {
+        m <<- givenM
+        mi <<- NULL
+    }
+    get <- function() m
+    setinverse <- function(givenMi) mi <<- givenMi
+    getinverse <- function() mi
+    list(set = set, get = get,
+         setinverse = setinverse,
+         getinverse = getinverse)
 }
-
-
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+# rertun cached inverse if availabble otherwise calcuate and cache it
+cacheSolve <- function(m, ...) {
+    mi <- m$getinverse()
+    if(!is.null(mi)) {
+        message("getting cached inverse")
+        return(mi)
+    }
+    mi <- solve(m$get(), ...)
+    m$setinverse(mi)
+    mi
 }
